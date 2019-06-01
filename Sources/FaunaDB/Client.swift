@@ -81,8 +81,9 @@ public final class Client {
         - Parameter batch: A sequence of query expressions to be sent to FaunaDB.
     */
     public func query(batch: [Expr]) -> QueryResult<[Value]> {
-        return query(Arr(wrap: batch)).map { value in
-            try value.get()
+        return query(Arr(wrap: batch)).flatMap { value in
+            let cls: () throws -> [Value] = {try value.get()}
+            return Result<[Value], Error>(catching: cls)
         }
     }
 

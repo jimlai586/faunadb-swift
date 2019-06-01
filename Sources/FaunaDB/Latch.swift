@@ -8,7 +8,7 @@ internal class Latch<T> {
 
     private let lock = DispatchSemaphore(value: 0)
 
-    var value: Try<T>? {
+    var value: Result<T, Error>? {
         willSet { assert(value == nil) }
         didSet { lock.signal() }
     }
@@ -24,13 +24,13 @@ internal class Latch<T> {
             fatalError("Latch released with no value set.")
         }
 
-        return try value.unwrap()
+        return try value.get()
     }
 }
 
 extension Latch {
 
-    static func await(timeout: DispatchTime, _ fn: (@escaping (Try<T>) -> Void) -> Void) throws -> T {
+    static func await(timeout: DispatchTime, _ fn: (@escaping (Result<T, Error>) -> Void) -> Void) throws -> T {
         let latch = Latch<T>()
         fn { value in latch.value = value }
         return try latch.await(timeout: timeout)

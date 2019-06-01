@@ -9,12 +9,12 @@ import Foundation
 */
 public class QueryResult<T> {
 
-    typealias Callback = (Try<T>) -> Void
+    typealias Callback = (Result<T, Error>) -> Void
 
     private let lock = DispatchQueue(label: "FaunaDB.QueryResult<\(T.self)>-" + UUID().uuidString)
     private var callbacks = [Callback]()
 
-    var value: Try<T>? {
+    var value: Result<T, Error>? {
         willSet { assert(value == nil) }
         didSet { notify() }
     }
@@ -46,26 +46,6 @@ public class QueryResult<T> {
 }
 
 extension QueryResult {
-
-    /**
-        Maps the result returned by the server using the function provided.
-
-        - Parameters:
-            - queue:     The dispatch queue in which the transformation will be performed.
-            - transform: The transformation to be applied on the result value.
-
-        - Returns: A `QueryResult` containing the transformed value.
-    */
-    public func map<A>(at queue: DispatchQueue? = nil, _ transform: @escaping (T) throws -> A) -> QueryResult<A> {
-        let res = QueryResult<A>()
-
-        onComplete(at: queue) { result in
-            res.value = result.map(transform)
-        }
-
-        return res
-    }
-
     /**
         Flat maps the result returned by the server using the function provided.
 
@@ -75,17 +55,11 @@ extension QueryResult {
 
         - Returns: A `QueryResult` containing the transformed value.
     */
-    public func flatMap<A>(at queue: DispatchQueue? = nil, _ transform: @escaping (T) throws -> QueryResult<A>) -> QueryResult<A> {
+    public func flatMap<A>(at queue: DispatchQueue? = nil, _ transform: @escaping (T) -> Result<A, Error>) -> QueryResult<A> {
         let res = QueryResult<A>()
 
         onComplete(at: queue) { result in
-            _ = result.map { value in
-                try transform(value).onComplete { nested in
-                    res.value = nested
-                }
-            }.mapErr { error in
-                res.value = .failure(error)
-            }
+            res.value = result.flatMap(transform)
         }
 
         return res
@@ -94,51 +68,6 @@ extension QueryResult {
 }
 
 extension QueryResult {
-
-    /**
-        Apply a transformation if an error has occurred during the query execution.
-
-        If `mapErr` returns a value, the resulting `QueryResult` will be transformed
-        into a success result. If you wish to handle an error but still return a
-        failing `QueryResult`, you must rethrow an exception.
-
-        For example:
-
-            // Revover from an error
-            client.query(/* some query */)
-                .map { value in
-                    try value.get() as Int?
-                }
-                .mapErr { error in
-                    debugPrint(error)
-                    return nil
-                }
-
-            // Handle but don't recover from an error
-            client.query(/* some query */)
-                .map { value in
-                    try value.get() as Int?
-                }
-                .mapErr { error in
-                    debugPrint(error)
-                    throw error
-                }
-
-        - Parameters:
-            - queue:     The dispatch queue in which the transformation will be performed.
-            - transform: The transformation to be applied on the resulting error.
-
-        - Returns: A `QueryResult` containing the transformed value.
-    */
-    public func mapErr(at queue: DispatchQueue? = nil, _ transform: @escaping (Error) throws -> T) -> QueryResult {
-        let res = QueryResult()
-
-        onComplete(at: queue) { result in
-            res.value = result.mapErr(transform)
-        }
-
-        return res
-    }
 
     /**
         Apply a transformation if an error has occurred during the query execution.
@@ -178,15 +107,11 @@ extension QueryResult {
 
         - Returns: A `QueryResult` containing the transformed value.
     */
-    public func flatMapErr(at queue: DispatchQueue? = nil, _ transform: @escaping (Error) throws -> QueryResult) -> QueryResult {
-        let res = QueryResult()
+    public func flatMapError(at queue: DispatchQueue? = nil, _ transform: @escaping (Error) -> Result<T, Error>) -> QueryResult<T> {
+        let res = QueryResult<T>()
 
         onComplete(at: queue) { result in
-            _ = result.map { value in res.value = result }.mapErr { error in
-                try transform(error).onComplete { nested in
-                    res.value = nested
-                }
-            }
+            res.value = result.flatMapError(transform)
         }
 
         return res
@@ -204,11 +129,8 @@ extension QueryResult {
             - callback: The callback to be called when the resulting value is available.
     */
     @discardableResult
-    public func onSuccess(at queue: DispatchQueue? = nil, _ callback: @escaping (T) throws -> Void) -> QueryResult {
-        return map(at: queue) { res in
-            try callback(res)
-            return res
-        }
+    public func onSuccess(at queue: DispatchQueue? = nil, _ callback: @escaping (T) -> Result<Void, Error>) -> QueryResult<Void> {
+        return flatMap(at: queue, callback)
     }
 
     /**
@@ -219,11 +141,8 @@ extension QueryResult {
             - callback: The callback to be called when an error occurs.
     */
     @discardableResult
-    public func onFailure(at queue: DispatchQueue? = nil, _ callback: @escaping (Error) throws -> Void) -> QueryResult {
-        return mapErr(at: queue) { error in
-            try callback(error)
-            throw error
-        }
+    public func onFailure(at queue: DispatchQueue? = nil, _ callback: @escaping (Error) -> Result<T, Error>) -> QueryResult<T> {
+        return flatMapError(at: queue, callback)
     }
 
 }
