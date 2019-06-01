@@ -11,7 +11,7 @@ import Foundation
 */
 public final class Client {
 
-    private static let defaultEndpoint: URL! = URL(string: "https://db.fauna.com")
+    public static let defaultEndpoint: URL = URL(string: "https://db.fauna.com")!
     private static let resourcesField = Field<Value>("resource")
 
     private let session: URLSession
