@@ -7,31 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C2E56F71F98211D00B66442 /* DescriptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2E56F61F98211D00B66442 /* DescriptionTests.swift */; };
-		450077621DF08D7B0064C81B /* TestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450077611DF08D7B0064C81B /* TestUtils.swift */; };
-		45F357401E02CD6C002A45B2 /* AtomicIntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F3573F1E02CD6C002A45B2 /* AtomicIntTests.swift */; };
+		AD704E2422A2305F00A71D2F /* Magic.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD704E2322A2305F00A71D2F /* Magic.swift */; };
+		AD704E2622A23F4C00A71D2F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD704E2522A23F4C00A71D2F /* Global.swift */; };
+		AD704E2822A248AF00A71D2F /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD704E2722A248AF00A71D2F /* Promise.swift */; };
+		AD704E2C22ADEBBC00A71D2F /* JsonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD704E2B22ADEBBC00A71D2F /* JsonTests.swift */; };
+		AD704E2F22AE033E00A71D2F /* Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD704E2E22AE033E00A71D2F /* Fields.swift */; };
 		OBJ_44 /* AtomicInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AtomicInt.swift */; };
 		OBJ_45 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Client.swift */; };
-		OBJ_46 /* Codec.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Codec.swift */; };
 		OBJ_47 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Errors.swift */; };
-		OBJ_48 /* Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Expr.swift */; };
-		OBJ_49 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Field.swift */; };
 		OBJ_50 /* HighPrecisionTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* HighPrecisionTime.swift */; };
 		OBJ_51 /* ISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* ISO8601.swift */; };
-		OBJ_52 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* JSON.swift */; };
 		OBJ_53 /* LanguageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* LanguageExtensions.swift */; };
 		OBJ_54 /* Latch.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Latch.swift */; };
-		OBJ_55 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* Path.swift */; };
 		OBJ_56 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* Query.swift */; };
-		OBJ_57 /* QueryResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* QueryResult.swift */; };
-		OBJ_59 /* Value+Traversal.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Value+Traversal.swift */; };
 		OBJ_60 /* Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Value.swift */; };
-		OBJ_67 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* ClientTests.swift */; };
-		OBJ_68 /* DeserializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* DeserializationTests.swift */; };
-		OBJ_69 /* ErrorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* ErrorsTests.swift */; };
-		OBJ_71 /* FieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* FieldTests.swift */; };
-		OBJ_72 /* QueryResultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* QueryResultTests.swift */; };
-		OBJ_73 /* SerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* SerializationTests.swift */; };
 		OBJ_75 /* FaunaDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* FaunaDB.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,22 +38,19 @@
 		3C2E56F61F98211D00B66442 /* DescriptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionTests.swift; sourceTree = "<group>"; };
 		450077611DF08D7B0064C81B /* TestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestUtils.swift; sourceTree = "<group>"; };
 		45F3573F1E02CD6C002A45B2 /* AtomicIntTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AtomicIntTests.swift; sourceTree = "<group>"; };
+		AD704E2322A2305F00A71D2F /* Magic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Magic.swift; sourceTree = "<group>"; };
+		AD704E2522A23F4C00A71D2F /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		AD704E2722A248AF00A71D2F /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
+		AD704E2B22ADEBBC00A71D2F /* JsonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonTests.swift; sourceTree = "<group>"; };
+		AD704E2E22AE033E00A71D2F /* Fields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fields.swift; sourceTree = "<group>"; };
 		OBJ_10 /* Client.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
-		OBJ_11 /* Codec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codec.swift; sourceTree = "<group>"; };
 		OBJ_12 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		OBJ_13 /* Expr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expr.swift; sourceTree = "<group>"; };
-		OBJ_14 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 		OBJ_15 /* HighPrecisionTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighPrecisionTime.swift; sourceTree = "<group>"; };
 		OBJ_16 /* ISO8601.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601.swift; sourceTree = "<group>"; };
-		OBJ_17 /* JSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
 		OBJ_18 /* LanguageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageExtensions.swift; sourceTree = "<group>"; };
 		OBJ_19 /* Latch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Latch.swift; sourceTree = "<group>"; };
-		OBJ_20 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		OBJ_21 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
-		OBJ_22 /* QueryResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryResult.swift; sourceTree = "<group>"; };
-		OBJ_24 /* Value+Traversal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Value+Traversal.swift"; sourceTree = "<group>"; };
 		OBJ_25 /* Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Value.swift; sourceTree = "<group>"; };
-		OBJ_28 /* ClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientTests.swift; sourceTree = "<group>"; };
 		OBJ_29 /* DeserializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeserializationTests.swift; sourceTree = "<group>"; };
 		OBJ_30 /* ErrorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorsTests.swift; sourceTree = "<group>"; };
 		OBJ_32 /* FieldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTests.swift; sourceTree = "<group>"; };
@@ -106,8 +92,8 @@
 		OBJ_27 /* FaunaDBTests */ = {
 			isa = PBXGroup;
 			children = (
+				AD704E2B22ADEBBC00A71D2F /* JsonTests.swift */,
 				45F3573F1E02CD6C002A45B2 /* AtomicIntTests.swift */,
-				OBJ_28 /* ClientTests.swift */,
 				OBJ_29 /* DeserializationTests.swift */,
 				OBJ_30 /* ErrorsTests.swift */,
 				OBJ_32 /* FieldTests.swift */,
@@ -152,20 +138,17 @@
 			children = (
 				OBJ_9 /* AtomicInt.swift */,
 				OBJ_10 /* Client.swift */,
-				OBJ_11 /* Codec.swift */,
 				OBJ_12 /* Errors.swift */,
-				OBJ_13 /* Expr.swift */,
-				OBJ_14 /* Field.swift */,
 				OBJ_15 /* HighPrecisionTime.swift */,
 				OBJ_16 /* ISO8601.swift */,
-				OBJ_17 /* JSON.swift */,
 				OBJ_18 /* LanguageExtensions.swift */,
 				OBJ_19 /* Latch.swift */,
-				OBJ_20 /* Path.swift */,
 				OBJ_21 /* Query.swift */,
-				OBJ_22 /* QueryResult.swift */,
-				OBJ_24 /* Value+Traversal.swift */,
 				OBJ_25 /* Value.swift */,
+				AD704E2322A2305F00A71D2F /* Magic.swift */,
+				AD704E2522A23F4C00A71D2F /* Global.swift */,
+				AD704E2722A248AF00A71D2F /* Promise.swift */,
+				AD704E2E22AE033E00A71D2F /* Fields.swift */,
 			);
 			name = FaunaDB;
 			path = Sources/FaunaDB;
@@ -258,19 +241,16 @@
 			files = (
 				OBJ_44 /* AtomicInt.swift in Sources */,
 				OBJ_45 /* Client.swift in Sources */,
-				OBJ_46 /* Codec.swift in Sources */,
+				AD704E2822A248AF00A71D2F /* Promise.swift in Sources */,
 				OBJ_47 /* Errors.swift in Sources */,
-				OBJ_48 /* Expr.swift in Sources */,
-				OBJ_49 /* Field.swift in Sources */,
 				OBJ_50 /* HighPrecisionTime.swift in Sources */,
 				OBJ_51 /* ISO8601.swift in Sources */,
-				OBJ_52 /* JSON.swift in Sources */,
+				AD704E2622A23F4C00A71D2F /* Global.swift in Sources */,
+				AD704E2422A2305F00A71D2F /* Magic.swift in Sources */,
+				AD704E2F22AE033E00A71D2F /* Fields.swift in Sources */,
 				OBJ_53 /* LanguageExtensions.swift in Sources */,
 				OBJ_54 /* Latch.swift in Sources */,
-				OBJ_55 /* Path.swift in Sources */,
 				OBJ_56 /* Query.swift in Sources */,
-				OBJ_57 /* QueryResult.swift in Sources */,
-				OBJ_59 /* Value+Traversal.swift in Sources */,
 				OBJ_60 /* Value.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,15 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_67 /* ClientTests.swift in Sources */,
-				OBJ_68 /* DeserializationTests.swift in Sources */,
-				45F357401E02CD6C002A45B2 /* AtomicIntTests.swift in Sources */,
-				OBJ_69 /* ErrorsTests.swift in Sources */,
-				OBJ_71 /* FieldTests.swift in Sources */,
-				450077621DF08D7B0064C81B /* TestUtils.swift in Sources */,
-				3C2E56F71F98211D00B66442 /* DescriptionTests.swift in Sources */,
-				OBJ_72 /* QueryResultTests.swift in Sources */,
-				OBJ_73 /* SerializationTests.swift in Sources */,
+				AD704E2C22ADEBBC00A71D2F /* JsonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

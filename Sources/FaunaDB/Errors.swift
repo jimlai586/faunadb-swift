@@ -1,10 +1,9 @@
 import Foundation
 
+public enum NotCodable: String, Error {
+    case invalidTime, invalidDate
+}
 internal struct Errors {
-
-    private static let errorField = Fields.at("errors").get(asArrayOf:
-        Fields.map(QueryError.init)
-    )
 
     static func errorFor(response: HTTPURLResponse, json: Data) -> FaunaError? {
         guard !(200 ..< 300 ~= response.statusCode) else { return nil }
@@ -35,9 +34,7 @@ internal struct Errors {
     }
 
     private static func parseErrors(from json: Data) throws -> [QueryError] {
-        return try JSON
-            .parse(data: json)
-            .get(field: errorField)
+        return []
     }
 }
 
@@ -179,29 +176,6 @@ public struct QueryError {
     }
 }
 
-extension QueryError {
-
-    private static let positionField = Fields.at("position").get(asArrayOf:
-        Fields.map { value in
-            "\(value)"
-        }
-    )
-
-    private static let failuresField = Fields.at("failures").get(asArrayOf:
-        Fields.map(ValidationFailure.init)
-    )
-
-    fileprivate init(value: Value) throws {
-        try self.init(
-            position: value.get(field: QueryError.positionField),
-            code: value.get("code"),
-            description: value.get("description"),
-            failures: value.get(field: QueryError.failuresField)
-        )
-    }
-
-}
-
 extension QueryError: Equatable {
     public static func == (left: QueryError, right: QueryError) -> Bool {
         return left.position == right.position &&
@@ -227,23 +201,6 @@ public struct ValidationFailure {
         self.field = field
         self.code = code
         self.description = description
-    }
-}
-
-extension ValidationFailure {
-
-    private static let fieldAsString = Fields.at("field").get(asArrayOf:
-        Fields.map { value in
-            "\(value)"
-        }
-    )
-
-    init(value: Value) throws {
-        try self.init(
-            field: value.get(field: ValidationFailure.fieldAsString),
-            code: value.get("code"),
-            description: value.get("description")
-        )
     }
 }
 

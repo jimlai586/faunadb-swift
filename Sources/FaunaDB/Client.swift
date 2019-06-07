@@ -12,7 +12,7 @@ import Foundation
 public final class Client {
 
     public static let defaultEndpoint: URL = URL(string: "https://db.fauna.com")!
-    private static let resourcesField = Field<Value>("resource")
+    private static let resourcesField = Fields.resource
 
     private let session: URLSession
     private let endpoint: URL
@@ -57,12 +57,14 @@ public final class Client {
 
         - Parameter expr: The query expression to be sent. Check `FaunaDB.Expr` for more information.
     */
-    public func query(_ expr: Expr) -> QueryResult<Value> {
-        let res = QueryResult<Value>()
-
+    public func query(_ mj: MJ) -> QueryResult<MJ> {
+        let res = QueryResult<MJ>()
         do {
+            let encoded = faunaEncode(mj.jsonObject)
+            dp(mj, encoded)
+            let jsonData = try JSONSerialization.data(withJSONObject: encoded, options: [])
             try send(
-                request: httpRequestFor(expr),
+                request: httpRequestFor(jsonData),
                 ifSuccess: { res.value = .success($0) },
                 ifFailure: { res.value = .failure($0) }
             )
@@ -73,25 +75,11 @@ public final class Client {
         return res
     }
 
-    /**
-        Sends a batch of queries to the FaunaDB server. All queries are executed asynchronously.
-        `QueryResult` will be fulfilled once all queries finishes to run, or fail. The result array
-        will be in the same order as the request array.
-
-        - Parameter batch: A sequence of query expressions to be sent to FaunaDB.
-    */
-    public func query(batch: [Expr]) -> QueryResult<[Value]> {
-        return query(Arr(wrap: batch)).flatMap { value in
-            let cls: () throws -> [Value] = {try value.get()}
-            return Result<[Value], Error>(catching: cls)
-        }
-    }
-
-    private func httpRequestFor(_ expr: Expr) throws -> URLRequest {
+    private func httpRequestFor(_ body: Data) throws -> URLRequest {
         let request = NSMutableURLRequest(url: endpoint)
 
         request.httpMethod = "POST"
-        request.httpBody = try JSON.data(value: expr)
+        request.httpBody = body
         request.addValue("application/json;charset=utf-8", forHTTPHeaderField: "Content-Type")
         request.addValue(auth, forHTTPHeaderField: "Authorization")
         request.addValue("2.1", forHTTPHeaderField: "X-FaunaDB-API-Version")
@@ -100,7 +88,7 @@ public final class Client {
     }
 
     private func send(request: URLRequest,
-                      ifSuccess successCallback: @escaping (Value) -> Void,
+                      ifSuccess successCallback: @escaping (MJ) -> Void,
                       ifFailure failureCallback: @escaping (Error) -> Void) {
 
         let task = session.dataTask(with: request) { [weak self] data, response, error in
@@ -131,7 +119,7 @@ public final class Client {
     }
 
     private func handle(response: URLResponse?, data: Data?,
-                        ifSuccess successCallback: @escaping (Value) -> Void,
+                        ifSuccess successCallback: @escaping (MJ) -> Void,
                         ifFailure failureCallback: @escaping (Error) -> Void) {
 
         guard let response = response as? HTTPURLResponse, let data = data else {
@@ -141,21 +129,15 @@ public final class Client {
 
         if let error = Errors.errorFor(response: response, json: data) {
             failureCallback(error)
+            dp(error)
             return
         }
-
         do {
-            let parsed = try JSON.parse(data: data)
-
-            guard let resources = try parsed.get(field: Client.resourcesField) else {
-                failureCallback(UnknownError(message: "Invalid server response: \"resource\" key not found."))
-                return
-            }
-
+            let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+            let resources = MJ(faunaDecode(jsonObject))[F.resource]
             successCallback(resources)
-        } catch let error {
-            failureCallback(error)
+        } catch let e {
+            failureCallback(e)
         }
     }
-
 }
