@@ -1,117 +1,37 @@
-# FaunaDB Swift Driver
+Great db, centering around json and networking. 
+ 
+However its iOS client currently has some problems.
 
-[![CocoaPods](https://img.shields.io/cocoapods/v/FaunaDB.svg)](http://cocoapods.org/pods/FaunaDB)
-[![Coverage Status](https://codecov.io/gh/fauna/faunadb-swift/branch/master/graph/badge.svg)](https://codecov.io/gh/fauna/faunadb-swift)
-[![License](https://img.shields.io/badge/license-MPL_2.0-blue.svg?maxAge=2592000)](https://raw.githubusercontent.com/fauna/faunadb-swift/master/LICENSE)
+## Swift 3 is obsolete
 
-A Swift driver for [FaunaDB](https://fauna.com)
+it needs an update to Swift 5 and takes advantage of new language features.
 
-## Supported Platforms
+## Uses semaphore lock for async operations
 
-* iOS 9.0+ | OSX 10.10+ | tvOS 9.0+ | watchOS 2.0+
-* Xcode 8
-* Swift 3
+i'd prefer not to worry about locks, there are other ways to avoid nested callbacks
 
-## Documentation
+## Uses its own JSON implementation/mapping 
 
-Check out the Swift-specific [reference documentation](http://fauna.github.io/faunadb-swift/).
+iOS application always comes equipped with dedicated JSON framework, it would be a lot simpler and consistent 
 
-You can find more information in the FaunaDB [documentation](https://fauna.com/documentation)
-and in our [example project](https://github.com/fauna/faunadb-swift/tree/master/Example).
+to use the same framework for all things JSON.
 
-## Using the Driver
+### My Approach 
 
-### Installing
+## Update to Swift 5
 
-CocoaPods:
+## Use Promise with built-in Result type
 
+eliminating locks, and it can later be upgraded with Combine framework
+
+## Use MagicJSON, which I wrote
+
+eliminating paths and segments, don't need intermediate types, you write queries like writing JSON.
+
+## Example
+```Swift 
+create(RefV("Post"), ObjV(mj: ["data": ["test": 123]]))
 ```
-pod 'FaunaDB', '~> 2.0.0'
-```
+where create:_: simply builds the rest of the JSON, you only need to fill in important parts.
 
-Carthage:
-
-```
-github 'fauna/faunadb-swift'
-```
-
-SwiftPM:
-
-```swift
-.Package(url: "https://github.com/fauna/faunadb-swift.git", Version(2, 0, 0))
-```
-
-### Basic Usage
-
-```swift
-import FaunaDB
-
-struct Post {
-    let title: String
-    let body: String?
-}
-
-extension Post: FaunaDB.Encodable {
-    func encode() -> Expr {
-        return Obj(
-            "title" => title,
-            "body" => body
-        )
-    }
-}
-
-extension Post: FaunaDB.Decodable {
-    init?(value: Value) throws {
-        try self.init(
-            title: value.get("title") ?? "Untitled",
-            body: value.get("body")
-        )
-    }
-}
-
-let client = FaunaDB.Client(secret: "your-key-secret-here")
-
-// Creating a new post
-try! client.query(
-    Create(
-        at: Class("posts")
-        Obj("data" => Post("My swift app", nil))
-    )
-).await(timeout: .now() + 5)
-
-// Retrieve a saved post
-let getPost = client.query(Get(Ref(class: Class("posts"), id: "42")))
-let post: Post = try! getPost.map { dbEntry in dbEntry.get("data") }
-    .await(timeout: .now() + 5)
-```
-
-For more examples, check our online [documentation](https://fauna.com/documentation)
-and our [example project](https://github.com/fauna/faunadb-swift/tree/master/Example).
-
-## Contributing
-
-GitHub pull requests are very welcome.
-
-### Driver Development
-
-You can compile and run the test with the following command:
-
-```
-FAUNA_ROOT_KEY=your-keys-secret-here swift test
-```
-
-## LICENSE
-
-Copyright 2018 [Fauna, Inc.](https://fauna.com/)
-
-Licensed under the Mozilla Public License, Version 2.0 (the
-"License"); you may not use this software except in compliance with
-the License. You may obtain a copy of the License at
-
-[http://mozilla.org/MPL/2.0/](http://mozilla.org/MPL/2.0/)
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-implied. See the License for the specific language governing
-permissions and limitations under the License.
+it's easier to read, operate, and you can easily add your own function for common queries.
