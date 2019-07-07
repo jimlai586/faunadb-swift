@@ -16,7 +16,7 @@ iOS application always comes equipped with dedicated JSON framework, it would be
 
 to use the same framework for all things JSON.
 
-### My Approach 
+# My Approach 
 
 ## Update to Swift 5
 
@@ -35,3 +35,13 @@ create(RefV("Post"), ObjV(mj: ["data": ["test": 123]]))
 where create:_: simply builds the rest of the JSON, you only need to fill in important parts.
 
 it's easier to read, operate, and you can easily add your own function for common queries.
+
+## Current Status
+
+Tested a few simple queries successfully. 
+
+You can send query using this client if you can construct all of the required JSON.
+
+All of the built-in functions need to be re-written, and I haven't got time.
+
+
